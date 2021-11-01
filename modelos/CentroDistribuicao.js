@@ -43,6 +43,48 @@ class CentroDistribuicao {
         })
     }
 
+    obterLocaisPossiveisParaIr(posAtual) {
+        let pos = []
+        let possivelPos = [
+            new Indice( //lado direito
+                posAtual.coordenadaX + 1,
+                posAtual.coordenadaY
+            ),
+            new Indice( // cima
+                posAtual.coordenadaX,
+                posAtual.coordenadaY +1
+            ),
+            new Indice( // lado Esquerdo
+                posAtual.coordenadaX - 1,
+                posAtual.coordenadaY
+            ),
+            new Indice( // para baixo
+                posAtual.coordenadaX,
+                posAtual.coordenadaY - 1
+            ),
+        ]
+
+        possivelPos.forEach((indice) => {
+            
+            if(indice.coordenadaX < 0 || indice.coordenadaX >= quantidadeDeLinhas) {
+
+            }
+            else if(indice.coordenadaY < 0 || indice.coordenadaY >= quantidadeDeColunas)
+            {
+
+            }
+            else {
+                let item = this.board[indice.coordenadaX][indice.coordenadaY]
+                if(item == undefined) {
+                    pos.push(indice)
+                }
+            }
+        })
+
+        return pos
+    }
+
+    //nao sei se precisa do mover
     mover(indiceAtual, indiceParaIr) {
         this.verificaPodeMover(indiceAtual, indiceParaIr)
     }
