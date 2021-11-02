@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    #myCanvas {
+        background-color: black;
+    }
+</style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+</body>
+
+<script>
+    var canvas = document.getElementById("myCanvas")
+    var ctx = canvas.getContext("2d")
+    teclas = []
+    var x = 200, y = 100, larg = 10, alt = 10
+    var x2 = 200, y2 = 100
+    var ang = 0, ang2 = 0
+
+    function desenhar() {
+        ctx.clearRect(0, 0, canvas.widht, canvas.height)
+        ctx.fillStyle = "rgb(0, 0, 200)"
+        ctx.strokeStyle = "rgb(255, 128, 0)"
+        ctx.lineWidth = 2
+        processKeys()
+        ctx.save()
+            ctx.translate(x, y)
+            ctx.rotate(ang)
+
+            ctx.fillRect(-larg/2, -alt/2, larg, alt)
+        ctx.restore()
+
+        ctx.save()
+        ctx.translate(x2, y2)
+            ctx.rotate(ang2)
+        ctx.beginPath()
+                ctx.moveTo(0,0)
+                ctx.lineTo(50, 0)
+            ctx.stroke()
+        ctx.restore()
+        requestAnimationFrame(desenhar)
+    }
+
+    function rotate(angle) {
+        ang+=angle
+    }
+
+    function rotate2(angle) {
+        ang2+=angle
+    }
+    
+    function move(qtd) {
+        x+= qtd * Math.cos(ang)
+        y+= qtd * Math.sin(ang)
+    }
+        
+    function move2(qtd) {
+        x2+= qtd * Math.cos(ang2)
+        y2+= qtd * Math.sin(ang2)
+    }
+
+    function processKeys() {
+        if(teclas[39]) {
+            let angle = Math.PI/45
+            rotate(angle)
+        }
+        if(teclas[37]) {
+            let angle = -Math.PI/45
+            rotate(angle)
+        }
+        if(teclas[38]) {
+            move(-3)
+        }
+        if(teclas[40]) {
+            move(+3)
+        }
+        if(teclas[65]) {
+            let angle = -Math.PI/45
+            rotate2(angle)
+        }
+        if(teclas[87]) {
+            move2(-3)
+        }
+        if(teclas[68]) {
+            let angle = Math.PI/45
+            rotate2(angle)
+        }if(teclas[83]) {
+            move2(3)
+        }
+    }
+
+    document.onkeydown = function(evt) {
+        console.log(evt.keyCode)
+        teclas[evt.keyCode] = true
+    }
+
+    document.onkeyup = function(evt) {
+        teclas[evt.keyCode] = false
+    }
+
+    desenhar()
+</script>
+</html>
