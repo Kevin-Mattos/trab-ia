@@ -1,4 +1,4 @@
-const tipos = {
+Tipos = {
     ROBO: 'R',
     ROBO_COM_PRATELEIRA: '',
     PRATELEIRA: 'P',
@@ -6,5 +6,3 @@ const tipos = {
     X: 'X',
     BLOQUEADO: '_'
 }
-
-module.exports = tipos

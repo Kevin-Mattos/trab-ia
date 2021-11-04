@@ -1,15 +1,16 @@
-const tipos = require("./Tipos")
+// import Tipos from "./Tipos"
 
-class Robo {
+
+ class Robo {
     constructor(indice) {
        this.indice = indice
     }
 
     getTipo() {
         if(this.prateleira == null)
-            return tipos.ROBO
+            return Tipos.ROBO
         else
-            return tipos.ROBO_COM_PRATELEIRA
+            return Tipos.ROBO_COM_PRATELEIRA
     }
 
     mover(indice) {
@@ -27,5 +28,3 @@ class Robo {
     }
 
 }
-
-module.exports = Robo

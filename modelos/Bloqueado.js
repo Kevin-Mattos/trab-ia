@@ -1,14 +1,13 @@
-const tipos = require("./Tipos")
 
-class Bloqueado {
+ class Bloqueado {
     constructor(indice) {
         this.indice = indice
      }
 
     getTipo() {
-        return tipos.BLOQUEADO
+        return Tipos.BLOQUEADO
     }
 
 }
 
-module.exports = Bloqueado
+// module.exports = Bloqueado

@@ -1,14 +1,14 @@
-const Bloqueado = require("./Bloqueado.js")
-const Indice = require("./Indice")
-const Prateleira = require("./Prateleira.js")
-const Robo = require("./Robo.js")
-const tipos = require("./Tipos.js")
+// import Bloqueado from "./Bloqueado"
+// import Indice from "./Indice"
+// import Prateleira from "./Prateleira"
+// import Robo from "./Robo"
+// import Tipos from "./Tipos"
 
 const quantidadeDeLinhas = 13
 const quantidadeDeColunas = 15
 
 class CentroDistribuicao {
-    constructor(x, y) {
+    constructor() {
         this.board = Array(quantidadeDeLinhas).fill().map(() => Array(quantidadeDeColunas).fill())
         this._init()
     }
@@ -35,7 +35,7 @@ class CentroDistribuicao {
             linha.forEach((coluna, indiceColuna) => {
                 let campo = this.board[indiceLinha][indiceColuna]
                 if(campo == undefined)
-                    process.stdout.write(`${tipos.CAMINHO} |`)
+                    process.stdout.write(`${Tipos.CAMINHO} |`)
                 else
                     process.stdout.write(`${campo.getTipo()} |`)
             })
@@ -91,7 +91,7 @@ class CentroDistribuicao {
 
     verificaPodeMover(indiceAtual, indiceParaIr) {
         let item = this.board[indiceAtual.coordenadaX][indiceAtual.coordenadaY]
-        if(item.getTipo() != tipos.ROBO && item.getTipo() != tipos.ROBO_COM_PRATELEIRA)
+        if(item.getTipo() != Tipos.ROBO && item.getTipo() != Tipos.ROBO_COM_PRATELEIRA)
             throw `Tipo do item ${item.getTipo()} invalido para mover}`
         this.verificaIndiceMaiorQue1(indiceAtual.coordenadaX, indiceAtual.coordenadaX)
         this.verificaIndiceMaiorQue1(indiceAtual.coordenadaY, indiceAtual.coordenadaY)
@@ -116,5 +116,3 @@ class CentroDistribuicao {
     }
 
 }
-
-module.exports = CentroDistribuicao

@@ -1,15 +1,13 @@
-let Robo = require("../modelos/Robo")
-let CentroDistribuicao = require("../modelos/CentroDistribuicao")
-const Indice = require("../modelos/Indice");
-const tipos = require("../modelos/Tipos");
+// import Indice from "../modelos/Indice";
+// import Tipos from "../modelos/Tipos";
 
-function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
+ function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
 
     let preparedBoard = new AStarPreparedBoard(board.board)
 
-    var emObservacao = [];
-    var indicesJaObservados = [];
-    emObservacao.push(indiceAtual);
+    var emObservacao = []
+    var indicesJaObservados = []
+    emObservacao.push(indiceAtual)
 
 
     while (emObservacao.length != 0) {
@@ -27,16 +25,15 @@ function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
             var curr = preparedBoard.getItem(currentNode);
             var ret = [];
             while (curr.parent) {
-                ret.push(curr);
-                console.log(curr.indice)
+                ret.push(curr.indice)
                 curr = curr.parent;
             }
-            return ret.reverse();
+            return ret.reverse()
         }
 
         const index = emObservacao.indexOf(currentNode);
         if (index > -1) {
-            emObservacao.splice(index, 1);
+            emObservacao.splice(index, 1)
         }
         indicesJaObservados.push(currentNode)
 
@@ -48,26 +45,25 @@ function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
                 continue;
             }
 
-            var gScore = preparedBoard.getItem(currentNode).g + 1;
+            var gScore = preparedBoard.getItem(currentNode).g + 1
             var gScoreIsBest = false;
 
 
             if (!temNaLista(emObservacao, vizinho)) {
 
                 gScoreIsBest = true;
-                preparedBoard.getItem(vizinho).h = heuristic(vizinho, indiceParaIr);
-                emObservacao.push(vizinho);
+                preparedBoard.getItem(vizinho).h = heuristica(vizinho, indiceParaIr)
+                emObservacao.push(vizinho)
             }
             else if (gScore < preparedBoard.getItem(vizinho).g) {
-                gScoreIsBest = true;
+                gScoreIsBest = true
             }
 
             if (gScoreIsBest) {
                 //encontrou o melhor caminho entre os nodes
-                preparedBoard.getItem(vizinho).parent = preparedBoard.getItem(currentNode);
-                preparedBoard.getItem(vizinho).g = gScore;
-                preparedBoard.getItem(vizinho).f = preparedBoard.getItem(vizinho).g + preparedBoard.getItem(vizinho).h;
-                preparedBoard.getItem(vizinho).debug = "F: " + preparedBoard.getItem(vizinho).f + "<br />G: " + preparedBoard.getItem(vizinho).g + "<br />H: " + preparedBoard.getItem(vizinho).h;
+                preparedBoard.getItem(vizinho).parent = preparedBoard.getItem(currentNode)
+                preparedBoard.getItem(vizinho).g = gScore
+                preparedBoard.getItem(vizinho).f = preparedBoard.getItem(vizinho).g + preparedBoard.getItem(vizinho).h
             }
 
         }
@@ -96,7 +92,7 @@ class AStarPreparedBoard {
                         f: 0,
                         g: 0,
                         h: 0,
-                        tipo: tipos.CAMINHO,
+                        tipo: Tipos.CAMINHO,
                         indice: new Indice(linha, coluna),
 
                         getTipo() {
@@ -109,9 +105,7 @@ class AStarPreparedBoard {
                     item.h = 0
                     this.board[linha][coluna] = item
                 }
-            }
-
-            )
+            })
         });
     }
 
@@ -145,7 +139,7 @@ class AStarPreparedBoard {
             }
             else {
                 let item = this.board[indice.coordenadaX][indice.coordenadaY]
-                if (item.getTipo() == tipos.CAMINHO) {
+                if (item.getTipo() == Tipos.CAMINHO) {
                     pos.push(indice)
                 }
             }
@@ -160,11 +154,8 @@ class AStarPreparedBoard {
 }
 
 
-function heuristic(pos0, pos1) {
-    // This is the Manhattan distance
+function heuristica(pos0, pos1) {
     var d1 = Math.abs(pos1.coordenadaX - pos0.coordenadaY);
     var d2 = Math.abs(pos1.coordenadaX - pos0.coordenadaY);
     return d1 + d2;
 }
-
-module.exports = BuscaAEstrela

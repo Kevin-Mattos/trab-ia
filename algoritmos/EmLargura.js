@@ -1,32 +1,29 @@
-let Robo = require("../modelos/Robo")
-let CentroDistribuicao = require("../modelos/CentroDistribuicao")
-const Indice = require("../modelos/Indice");
-const tipos = require("../modelos/Tipos");
+// import Indice from "../modelos/Indice"
+// import Tipos from "../modelos/Tipos"
+
 
 function BuscaLargura(board, indiceAtual, indiceParaIr) {
 
     let preparedBoard = new BuscaLarguraPreparedBoard(board.board)
 
-    var fila = [], resultado = [];
-    fila.push(indiceAtual);
+    var fila = []
+    fila.push(indiceAtual)
     while (fila.length > 0) {
         let indice = fila.shift()
-        preparedBoard.getItem(indice).visitado = true
         let vizinhos = preparedBoard.obterLocaisPossiveisParaIr(indice)
         for (let i = 0; i < vizinhos.length; i++) {
             let vizinho = vizinhos[i]
             let item = preparedBoard.getItem(vizinho)
             if(vizinho.coordenadaX == indiceParaIr.coordenadaX
                 && vizinho.coordenadaY == indiceParaIr.coordenadaY){
-                    console.log("chegou")
                     var curr = item
                     curr.parent = preparedBoard.getItem(indice);
                     var ret = [];
                     while (curr.parent) {
                         ret.push(curr.indice);
-                        curr = curr.parent;
+                        curr = curr.parent
                     }
-                    return ret.reverse();
+                    return ret.reverse()
                 }
             if(!item.visitado) {
                 item.visitado = true
@@ -39,17 +36,6 @@ function BuscaLargura(board, indiceAtual, indiceParaIr) {
     return []
 }
 
-function temNaLista(lista, indice) {
-    for (var i = 0; i < lista.length; i++) {
-        var indiceLista = lista[i];
-        if (indice.coordenadaX == indiceLista.coordenadaX
-            && indice.coordenadaY == indiceLista.coordenadaY) {
-            return true
-        }
-    }
-    return false
-}
-
 class BuscaLarguraPreparedBoard {
     constructor(board) {
         this.board = Array(board.length).fill().map(() => Array(board[0].length).fill())
@@ -57,18 +43,16 @@ class BuscaLarguraPreparedBoard {
             element.forEach((item, coluna) => {
                 if (item == undefined) {
                     this.board[linha][coluna] = {
-                        tipo: tipos.CAMINHO,
+                        tipo: Tipos.CAMINHO,
                         indice: new Indice(linha, coluna),
                         visitado : false,
                         distancia : 0,
-
                         getTipo() {
                             return this.tipo
                         }
                     }
                 } else {
-                    item.visitado = false
-                        item.distancia = 0
+                    
                     this.board[linha][coluna] = item
                 }
             }
@@ -107,7 +91,7 @@ class BuscaLarguraPreparedBoard {
             }
             else {
                 let item = this.board[indice.coordenadaX][indice.coordenadaY]
-                if (item.getTipo() == tipos.CAMINHO) {
+                if (item.getTipo() == Tipos.CAMINHO) {
                     pos.push(indice)
                 }
             }
@@ -122,4 +106,4 @@ class BuscaLarguraPreparedBoard {
 }
 
 
-module.exports = BuscaLargura
+// module.exports = BuscaLargura

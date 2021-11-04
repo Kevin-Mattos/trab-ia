@@ -1,14 +1,11 @@
-const tipos = require("./Tipos")
 
-class Prateleira {
+ class Prateleira {
     constructor(indice) {
        this.indice = indice
     }
 
     getTipo() {
-        return tipos.PRATELEIRA
+        return Tipos.PRATELEIRA
     }
 
 }
-
-module.exports = Prateleira
