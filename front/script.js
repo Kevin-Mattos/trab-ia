@@ -100,6 +100,11 @@
             
         document.querySelector('tbody').appendChild(tr);    //insere as linhas
     }
+
+                                        //atual             chegada (x, y)
+    let results = BuscaAEstrela(board, new Indice(0,0), new Indice(9, 13))
+    let results = BuscaLargura(board, new Indice(0,0), new Indice(9, 13))
+    console.log(results)
 // }
 
     
