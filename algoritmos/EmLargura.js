@@ -3,30 +3,27 @@ let CentroDistribuicao = require("../modelos/CentroDistribuicao")
 const Indice = require("../modelos/Indice");
 const tipos = require("../modelos/Tipos");
 
-function BuscaLargura(board, indiceAtual, indiceParaIr) {
+function BuscaLargura(board, indiceParaIr) {
 
     let preparedBoard = new BuscaLarguraPreparedBoard(board.board)
 
-    var fila = [], resultado = [];
-    fila.push(indiceAtual);
+    var fila = []
+    fila.push(indiceParaIr)
     while (fila.length > 0) {
         let indice = fila.shift()
-        preparedBoard.getItem(indice).visitado = true
         let vizinhos = preparedBoard.obterLocaisPossiveisParaIr(indice)
         for (let i = 0; i < vizinhos.length; i++) {
             let vizinho = vizinhos[i]
             let item = preparedBoard.getItem(vizinho)
-            if(vizinho.coordenadaX == indiceParaIr.coordenadaX
-                && vizinho.coordenadaY == indiceParaIr.coordenadaY){
-                    console.log("chegou")
+                if(item.getTipo() == tipos.ROBO) {
                     var curr = item
                     curr.parent = preparedBoard.getItem(indice);
                     var ret = [];
                     while (curr.parent) {
                         ret.push(curr.indice);
-                        curr = curr.parent;
+                        curr = curr.parent
                     }
-                    return ret.reverse();
+                    return ret.reverse()
                 }
             if(!item.visitado) {
                 item.visitado = true
@@ -37,17 +34,6 @@ function BuscaLargura(board, indiceAtual, indiceParaIr) {
         preparedBoard.getItem(indice).visitado = true
     }
     return []
-}
-
-function temNaLista(lista, indice) {
-    for (var i = 0; i < lista.length; i++) {
-        var indiceLista = lista[i];
-        if (indice.coordenadaX == indiceLista.coordenadaX
-            && indice.coordenadaY == indiceLista.coordenadaY) {
-            return true
-        }
-    }
-    return false
 }
 
 class BuscaLarguraPreparedBoard {
@@ -61,14 +47,12 @@ class BuscaLarguraPreparedBoard {
                         indice: new Indice(linha, coluna),
                         visitado : false,
                         distancia : 0,
-
                         getTipo() {
                             return this.tipo
                         }
                     }
                 } else {
-                    item.visitado = false
-                        item.distancia = 0
+                    
                     this.board[linha][coluna] = item
                 }
             }
@@ -107,7 +91,7 @@ class BuscaLarguraPreparedBoard {
             }
             else {
                 let item = this.board[indice.coordenadaX][indice.coordenadaY]
-                if (item.getTipo() == tipos.CAMINHO) {
+                if (item.getTipo() == tipos.CAMINHO || item.getTipo() == tipos.ROBO) {
                     pos.push(indice)
                 }
             }
