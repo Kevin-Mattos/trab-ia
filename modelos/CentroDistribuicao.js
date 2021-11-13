@@ -43,6 +43,19 @@ class CentroDistribuicao {
         })
     }
 
+    obterTodosRobos() {
+        let indices = []
+        this.board.forEach((linha, indiceLinha) => {
+            linha.forEach((coluna, indiceColuna) => {
+                let campo = this.board[indiceLinha][indiceColuna]
+                if(campo instanceof Robo)
+                    indices.push(campo.indice)
+            })
+            console.log("")
+        })
+        return indices
+    }
+
     obterLocaisPossiveisParaIr(posAtual) {
         let pos = []
         let possivelPos = [

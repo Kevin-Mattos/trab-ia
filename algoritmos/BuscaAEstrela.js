@@ -3,13 +3,35 @@ let CentroDistribuicao = require("../modelos/CentroDistribuicao")
 const Indice = require("../modelos/Indice");
 const tipos = require("../modelos/Tipos");
 
-function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
+function buscaAEstrela(board, indiceParaIr) {
+
+    let robos = board.obterTodosRobos()
+    let caminhos = []
+
+    robos.forEach((value) => {
+        let result = BuscaAEstrelaIndividual(board, value, indiceParaIr)
+        caminhos.push(result)
+    })
+
+    let smallestIndex = 1000
+    let smallestValue = smallestIndex
+    caminhos.filter((value) => value.length != 0).forEach((value, index) => {
+        console.log(smallestIndex, smallestValue)
+        if(value.length < smallestValue) {
+            smallestIndex = index
+            smallestValue = value.length
+        }            
+    })
+    return caminhos[smallestIndex]
+}
+
+function BuscaAEstrelaIndividual(board, indiceAtual, indiceParaIr) {
 
     let preparedBoard = new AStarPreparedBoard(board.board)
 
     var emObservacao = [];
     var indicesJaObservados = [];
-    emObservacao.push(indiceAtual);
+    emObservacao.push(indiceParaIr);
 
 
     while (emObservacao.length != 0) {
@@ -22,12 +44,12 @@ function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
         var currentNode = emObservacao[lowInd]
 
         // Encontrou
-        if (currentNode.coordenadaX == indiceParaIr.coordenadaX
-            && currentNode.coordenadaY == indiceParaIr.coordenadaY) {
+        if (currentNode.coordenadaX == indiceAtual.coordenadaX
+            && currentNode.coordenadaY == indiceAtual.coordenadaY) {
             var curr = preparedBoard.getItem(currentNode);
             var ret = [];
             while (curr.parent) {
-                ret.push(curr);
+                ret.push(curr.indice);
                 console.log(curr.indice)
                 curr = curr.parent;
             }
@@ -55,7 +77,7 @@ function BuscaAEstrela(board, indiceAtual, indiceParaIr) {
             if (!temNaLista(emObservacao, vizinho)) {
 
                 gScoreIsBest = true;
-                preparedBoard.getItem(vizinho).h = heuristic(vizinho, indiceParaIr);
+                preparedBoard.getItem(vizinho).h = heuristic(vizinho, indiceAtual);
                 emObservacao.push(vizinho);
             }
             else if (gScore < preparedBoard.getItem(vizinho).g) {
@@ -145,7 +167,7 @@ class AStarPreparedBoard {
             }
             else {
                 let item = this.board[indice.coordenadaX][indice.coordenadaY]
-                if (item.getTipo() == tipos.CAMINHO) {
+                if (item.getTipo() == tipos.CAMINHO || item.getTipo() == tipos.ROBO) {
                     pos.push(indice)
                 }
             }
@@ -167,4 +189,4 @@ function heuristic(pos0, pos1) {
     return d1 + d2;
 }
 
-module.exports = BuscaAEstrela
+module.exports = buscaAEstrela
