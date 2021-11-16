@@ -1,19 +1,18 @@
-let a = require("./algoritmos/BuscaAEstrela")
+const buscaAEstrela = require("./algoritmos/BuscaAEstrela")
 const BuscaLargura = require("./algoritmos/EmLargura")
 const CentroDistribuicao = require("./modelos/CentroDistribuicao")
 const Indice = require("./modelos/Indice")
 const Robo = require("./modelos/Robo")
+const tipos = require("./modelos/Tipos")
 
-let robo = new Robo(new Indice(0,0))
-let board = new CentroDistribuicao(1, 2)
+let board = new CentroDistribuicao()
 board.imprime()
-let restults = BuscaLargura(board, robo.indice, new Indice(9, 13))
-console.log(restults)
-// console.log(board.board[9] [11])
-// let teste = a(board, robo.indice, new Indice(9, 13))
-// teste.forEach((v => {
-//     board.board[v.indice.coordenadaX][v.indice.coordenadaY] = new Robo(v)
-// }))
-// board.imprime()
-
-//console.log(teste)
+let results = BuscaLargura(board, new Indice(5, 14))
+// let results = buscaAEstrela(board, new Indice(5, 14))
+console.log(results)
+results.forEach((v => {
+    board.board[v.coordenadaX][v.coordenadaY] = {
+        getTipo(){return tipos.X}
+    }
+}))
+board.imprime()
