@@ -7,8 +7,13 @@ const tipos = require("./modelos/Tipos")
 
 let board = new CentroDistribuicao()
 board.imprime()
-let results = BuscaLargura(board, new Indice(5, 14))
-// let results = buscaAEstrela(board, new Indice(5, 14))
+// let indicePrateleira = new Indice(5, 14)
+// let indicePrateleira = new Indice(7, 11)
+// let indicePrateleira = new Indice(9, 12)
+// let indicePrateleira = new Indice(2, 0)
+let indicePrateleira = new Indice(9, 8)
+// let results = BuscaLargura(board, indicePrateleira)
+let results = buscaAEstrela(board, indicePrateleira)
 console.log(results)
 results.forEach((v => {
     board.board[v.coordenadaX][v.coordenadaY] = {

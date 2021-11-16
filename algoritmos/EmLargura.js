@@ -6,7 +6,7 @@ function BuscaLargura(board, indiceParaIr) {
 
     let preparedBoard = new BuscaLarguraPreparedBoard(board.board)
 
-    var fila = []
+    let fila = []
     fila.push(indiceParaIr)
     while (fila.length > 0) {
         let indice = fila.shift()
@@ -15,9 +15,9 @@ function BuscaLargura(board, indiceParaIr) {
             let vizinho = vizinhos[i]
             let item = preparedBoard.getItem(vizinho)
             if (item.getTipo() == tipos.ROBO) {
-                var curr = item
+                let curr = item
                 curr.parent = preparedBoard.getItem(indice)
-                var ret = []
+                let ret = []
                 while (curr.parent) {
                     ret.push(curr.indice)
                     curr = curr.parent

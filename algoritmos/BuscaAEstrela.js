@@ -27,18 +27,18 @@ function BuscaAEstrelaIndividual(board, indiceAtual, indiceParaIr) {
 
     let preparedBoard = new AStarPreparedBoard(board.board)
 
-    var emObservacao = []
-    var indicesJaObservados = []
+    let emObservacao = []
+    let indicesJaObservados = []
     emObservacao.push(indiceParaIr)
 
     while (emObservacao.length != 0) {
-        var lowInd = 0
-        for (var i = 0; i < emObservacao.length; i++) {
+        let lowInd = 0
+        for (let i = 0; i < emObservacao.length; i++) {
             if (preparedBoard.getItem(emObservacao[i]).f < preparedBoard.getItem(emObservacao[lowInd]).f) {
                 lowInd = i
             }
         }
-        var currentNode = emObservacao[lowInd]
+        let currentNode = emObservacao[lowInd]
         // Encontrou
         if (currentNode.coordenadaX == indiceAtual.coordenadaX
             && currentNode.coordenadaY == indiceAtual.coordenadaY) {
@@ -51,6 +51,7 @@ function BuscaAEstrelaIndividual(board, indiceAtual, indiceParaIr) {
             return ret.reverse()
         }
 
+        //remover atual dos observados
         const index = emObservacao.indexOf(currentNode)
         if (index > -1) {
             emObservacao.splice(index, 1)
@@ -91,8 +92,8 @@ function BuscaAEstrelaIndividual(board, indiceAtual, indiceParaIr) {
 }
 
 function temNaLista(lista, indice) {
-    for (var i = 0; i < lista.length; i++) {
-        var indiceLista = lista[i]
+    for (let i = 0; i < lista.length; i++) {
+        let indiceLista = lista[i]
         if (indice.coordenadaX == indiceLista.coordenadaX
             && indice.coordenadaY == indiceLista.coordenadaY) {
             return true
@@ -131,8 +132,8 @@ function AStarPreparedBoard(board) {
 
 //Calcula distância
 function heuristic(pos0, pos1) {
-    var d1 = Math.pow(pos1.coordenadaX - pos0.coordenadaY, 2)
-    var d2 = Math.pow(pos1.coordenadaX - pos0.coordenadaY, 2)
+    let d1 = Math.pow(pos1.coordenadaX - pos0.coordenadaY, 2)
+    let d2 = Math.pow(pos1.coordenadaX - pos0.coordenadaY, 2)
     return Math.sqrt(d1 + d2)
 }
 

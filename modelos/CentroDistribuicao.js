@@ -21,7 +21,6 @@ class CentroDistribuicao {
             })            
         }
 
-
         let indicesRobos = [
             new Indice(0,0),
             new Indice(0,4),
@@ -59,7 +58,7 @@ class CentroDistribuicao {
     obterTodosRobos() {
         let indices = []
         this.board.forEach((linha, indiceLinha) => {
-            linha.forEach((coluna, indiceColuna) => {
+            linha.forEach((_, indiceColuna) => {
                 let campo = this.board[indiceLinha][indiceColuna]
                 if(campo instanceof Robo)
                     indices.push(campo.indice)
