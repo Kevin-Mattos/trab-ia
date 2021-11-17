@@ -8,19 +8,10 @@ let CentroDistribuicao = require("../modelos/CentroDistribuicao")
 const Indice = require("../modelos/Indice");
 const tipos = require("../modelos/Tipos");
 
-/*APAGAR DEPOIS
-let a = require("./algoritmos/AprofundamentoIterativo")
 
-
-let robo = new Robo(new Indice(0,0))
-let board = new CentroDistribuicao(1, 2)
-board.imprime()
-let restults = BuscaAEstrela(board, robo.indice, new Indice(9, 13))
-console.log(restults)
-*/
 
 function Aprofundamentoiterativo(board, indiceParaIr) {
-    //let preparedBoard = new aprofBoard(board.board)
+
     let profundidade = 20;
     while (profundidade < 21) {
 
@@ -37,7 +28,7 @@ function Aprofundamentoiterativo(board, indiceParaIr) {
         atual = fronteira.pop(); //tira do final, pilha
         //console.log(atual)
         explorado.push(atual); //marca os que já foram
-        if (board.board[atual.coordenadaX][atual.coordenadaY] instanceof Robo) {
+        if (board.board[atual.coordenadaX][atual.coordenadaY] instanceof Robo) { //se encontra
             var resultado = [];
             while (atual.parent != null) {
                 resultado.push(atual);
@@ -56,7 +47,7 @@ function Aprofundamentoiterativo(board, indiceParaIr) {
                 let count = 0;
                 let pode = true;
                 while (testagem.parent != null && pode == true) {
-                    if (count < profundidade) {
+                    if (count > profundidade) {
                         pode = false;
                     }
                     console.log("entro")
@@ -67,14 +58,14 @@ function Aprofundamentoiterativo(board, indiceParaIr) {
 
                 }
                 if (pode == true) {
-                    fronteira.push(acao); //coloca no final}
+                    fronteira.push(acao); }//coloca no final}
                     pode = true;
 
 
 
-                }
+                
             }
-
+        
 
     })
 
@@ -89,9 +80,10 @@ function Aprofundamentoiterativo(board, indiceParaIr) {
         return false
     }
 }
-
-
 }
+
+
+
 
 
 //}
