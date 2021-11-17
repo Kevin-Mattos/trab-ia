@@ -19,7 +19,7 @@ let restults = BuscaAEstrela(board, robo.indice, new Indice(9, 13))
 console.log(restults)
 */
 
-function Aprofundamentoiterativo(board, indiceAtual, indiceParaIr) {
+function Aprofundamentoiterativo(board, indiceParaIr) {
     //let preparedBoard = new aprofBoard(board.board)
     let profundidade = 20;
     while (profundidade < 21) {
@@ -27,9 +27,9 @@ function Aprofundamentoiterativo(board, indiceAtual, indiceParaIr) {
         console.log("Buscando...")
         let fronteira = [];
         let atual;
-        fronteira.push(indiceAtual); //coloca no final
+        fronteira.push(indiceParaIr); //coloca no final
         let explorado = [];
-        console.log(indiceAtual)
+        console.log(indiceParaIr)
         profundidade = profundidade + 1;
         console.log(profundidade)
 
@@ -37,7 +37,7 @@ function Aprofundamentoiterativo(board, indiceAtual, indiceParaIr) {
         atual = fronteira.pop(); //tira do final, pilha
         //console.log(atual)
         explorado.push(atual); //marca os que já foram
-        if (atual == indiceParaIr) {
+        if (board.board[atual.coordenadaX][atual.coordenadaY] instanceof Robo) {
             var resultado = [];
             while (atual.parent != null) {
                 resultado.push(atual);
