@@ -8,7 +8,7 @@ const quantidadeDeLinhas = 13
 const quantidadeDeColunas = 15
 
 class CentroDistribuicao {
-    constructor(x, y) {
+    constructor() {
         this.board = Array(quantidadeDeLinhas).fill().map(() => Array(quantidadeDeColunas).fill())
         this._init()
     }
@@ -21,8 +21,20 @@ class CentroDistribuicao {
             })            
         }
 
-        let linhaDosRobos = 12
-        for(let coluna = 0; coluna < 15; coluna++) {            
+        let indicesRobos = [
+            new Indice(0,0),
+            new Indice(0,4),
+            new Indice(4,4),
+            new Indice(6,7),
+            new Indice(3,10),
+        ]
+
+        indicesRobos.forEach (indice => {
+            this.board[indice.coordenadaX][indice.coordenadaY] = new Robo(new Indice(indice.coordenadaX, indice.coordenadaY))
+        })
+
+        let linhaDosRobos = quantidadeDeLinhas - 1
+        for(let coluna = 6; coluna < quantidadeDeColunas; coluna++) {            
             if(coluna <= 5)
                 this.board[linhaDosRobos][coluna] = new Robo(new Indice(linhaDosRobos, coluna))
             else
@@ -41,6 +53,18 @@ class CentroDistribuicao {
             })
             console.log("")
         })
+    }
+
+    obterTodosRobos() {
+        let indices = []
+        this.board.forEach((linha, indiceLinha) => {
+            linha.forEach((_, indiceColuna) => {
+                let campo = this.board[indiceLinha][indiceColuna]
+                if(campo instanceof Robo)
+                    indices.push(campo.indice)
+            })
+        })
+        return indices
     }
 
     obterLocaisPossiveisParaIr(posAtual) {
