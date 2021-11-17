@@ -50,3 +50,4 @@ function Bidirecional(board, indiceAtual, indiceParaIr) {
 
 }
 
+module.exports = Bidirecional
