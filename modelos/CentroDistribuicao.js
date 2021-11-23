@@ -22,7 +22,7 @@ class CentroDistribuicao {
         }
 
         let indicesRobos = [
-            // new Indice(0,0),
+            new Indice(0,0),
             // new Indice(0,4),
             new Indice(4,4),
             new Indice(6,7),
