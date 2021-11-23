@@ -11,7 +11,7 @@ let board = new CentroDistribuicao()
 board.imprime()
 
 function IterativoOuBidirecional() {
-    let restults = b(board, new Indice(9, 13))
+    let restults = b(board, new Indice(1, 4))
     console.log(restults)
     // console.log(board.board[9] [11])
     // let teste = a(board, robo.indice, new Indice(9, 13))
