@@ -1,10 +1,13 @@
 const buscaAEstrela = require("./algoritmos/BuscaAEstrela")
 const BuscaLargura = require("./algoritmos/EmLargura")
+<<<<<<< HEAD
 const b = require("./algoritmos/Aprofundamentoiterativo")
 const Bidirecional = require("./algoritmos/Bidirecional.js")
+=======
+const BuscaProfundidade = require("./algoritmos/EmProfundidade")
+>>>>>>> dba84e3252d278698744f8be3bd5fc40f750e461
 const CentroDistribuicao = require("./modelos/CentroDistribuicao")
 const Indice = require("./modelos/Indice")
-const Robo = require("./modelos/Robo")
 const tipos = require("./modelos/Tipos")
 
 let board = new CentroDistribuicao()
@@ -26,11 +29,12 @@ function IterativoOuBidirecional() {
 function aEstrelaOuLargura() {
 // let indicePrateleira = new Indice(5, 14)
 // let indicePrateleira = new Indice(7, 11)
-// let indicePrateleira = new Indice(9, 12)
+let indicePrateleira = new Indice(9, 12)
 // let indicePrateleira = new Indice(2, 0)
-let indicePrateleira = new Indice(9, 8)
-// let results = BuscaLargura(board, indicePrateleira)
-let results = buscaAEstrela(board, indicePrateleira)
+// let indicePrateleira = new Indice(9, 8)
+let results = BuscaLargura(board, indicePrateleira)
+// let results = buscaAEstrela(board, indicePrateleira)
+// let results = BuscaProfundidade(board, indicePrateleira)
 console.log(results)
 results.forEach((v => {
     board.board[v.coordenadaX][v.coordenadaY] = {

@@ -12,7 +12,7 @@ function buscaAEstrela(board, indiceParaIr) {
         caminhos.push(result)
     })
 
-    let smallestIndex = 1000
+    let smallestIndex = caminhos[0].length
     let smallestValue = smallestIndex
     caminhos.filter((value) => value.length != 0).forEach((value, index) => {
         if (value.length < smallestValue) {
