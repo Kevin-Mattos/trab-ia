@@ -4,6 +4,12 @@ const Indice = require("../modelos/Indice");
 const tipos = require("../modelos/Tipos");
 const BasePreparedBoard = require("./basePreparedBoard");
 
+const Algoritimos = {
+    LARGURA: 'L',
+    PROFUNDIDADE: 'P',
+    NENHUM: 'N'
+}
+
 function Bidirecional(board, indiceAtual, indiceParaIr) {
     let preparedBoard = new BidirecionalPreparedBoard(board.board)
     let fila = []
@@ -15,51 +21,47 @@ function Bidirecional(board, indiceAtual, indiceParaIr) {
         let indiceAPartirInicio = pilha.pop()
         let vizinhosDestino = preparedBoard.obterLocaisPossiveisParaIr(indiceAPartirDestino)
         .filter((value) => !(preparedBoard.getItem(value) instanceof Robo))
+        .map(value => preparedBoard.getItem(value).indice)
         let vizinhosInicio = preparedBoard.obterLocaisPossiveisParaIr(indiceAPartirInicio)
         .filter((value) => !(preparedBoard.getItem(value) instanceof Robo))
+        .map(value => preparedBoard.getItem(value).indice)
 
-        iteracao(fila, vizinhosDestino, preparedBoard, indiceAPartirDestino)
-        iteracao(pilha, vizinhosInicio, preparedBoard, indiceAPartirInicio)
-
-
-        let vizinhos = temVizinhos(vizinhosDestino, vizinhosInicio)
+        let vizinhos = temVizinhos(indiceAPartirDestino, vizinhosDestino)
         if(vizinhos.length > 0)
             return juntarCaminhos(vizinhos[0], vizinhos[1])
+
+        vizinhos = temVizinhos(indiceAPartirInicio, vizinhosInicio)
+        if(vizinhos.length > 0)
+            return juntarCaminhos(vizinhos[0], vizinhos[1])
+
+        iteracao(fila, vizinhosDestino, indiceAPartirDestino, Algoritimos.LARGURA)
+        iteracao(pilha, vizinhosInicio, indiceAPartirInicio, Algoritimos.PROFUNDIDADE)
     }
-    preparedBoard.imprime()
-    return []
 }
 
-function temVizinhos(vizinhosDestino, vizinhosInicio) {
+function temVizinhos(indice, vizinhosDestino) {
     for(let i = 0; i< vizinhosDestino.length; i++) {
-        for(let j = 0; j < vizinhosInicio.length; j++) {
-            let vizinhoDestino = vizinhosDestino[i]
-            let vizinhoInicio = vizinhosInicio[j]
-            if (saoVizinhos(vizinhoDestino, vizinhoInicio))
-                return [vizinhoDestino, vizinhoInicio]
-        }
+        let vizinho = vizinhosDestino[i]
+        if (saoVizinhosComAlgoritmosDiferentes(vizinho, indice))
+                return [vizinho, indice]        
     }
     return []
 }
 
-function saoVizinhos(vizinhoDestino, vizinhoInicio) {
-    if (vizinhoDestino.coordenadaX + 1 == vizinhoInicio.coordenadaX && vizinhoDestino.coordenadaY == vizinhoInicio.coordenadaY)
-        return true
-    if (vizinhoDestino.coordenadaX - 1 == vizinhoInicio.coordenadaX && vizinhoDestino.coordenadaY == vizinhoInicio.coordenadaY)
-        return true
-    if (vizinhoDestino.coordenadaX == vizinhoInicio.coordenadaX && vizinhoDestino.coordenadaY + 1 == vizinhoInicio.coordenadaY)
-        return true
-    if (vizinhoDestino.coordenadaX == vizinhoInicio.coordenadaX && vizinhoDestino.coordenadaY -1 == vizinhoInicio.coordenadaY)
-        return true
-    return false
+function saoVizinhosComAlgoritmosDiferentes(vizinhoDestino, vizinhoInicio, alg) {
+    if(!vizinhoDestino.visitado || !vizinhoInicio.visitado)
+        return false
+
+    return vizinhoDestino.alg != vizinhoInicio.alg
 }
 
-function iteracao(lista, vizinhos, preparedBoard, parent) {
+function iteracao(lista, vizinhos, parent, tipo) {
     for (let i = 0; i < vizinhos.length; i++) {
         let vizinho = vizinhos[i]
         // let item = preparedBoard.getItem(vizinho)
         if (!vizinho.visitado) {
             vizinho.visitado = true
+            vizinho.alg = tipo
             vizinho.parent = parent
             lista.push(vizinho)
         }
@@ -67,9 +69,10 @@ function iteracao(lista, vizinhos, preparedBoard, parent) {
 }
 
 function juntarCaminhos(vizinho1, vizinho2) {
-    let resultado = getParents(vizinho1)
-    let resultado2 = getParents(vizinho2).reverse()
-
+    let resultado = getParents(vizinho1).reverse()
+    let resultado2 = getParents(vizinho2)
+    console.log()
+    console.log(resultado, resultado2)
     return resultado.concat(resultado2) 
 }
 
@@ -77,7 +80,7 @@ function getParents(vizinho) {
     var resultado = []
     let atual = vizinho
     while (atual.parent != null) {
-        resultado.push(atual)
+        resultado.push(new Indice(atual.coordenadaX, atual.coordenadaY))
         atual = atual.parent
     }
     return resultado
@@ -88,18 +91,17 @@ function BidirecionalPreparedBoard(board) {
     board.forEach((element, linha) => {
         element.forEach((item, coluna) => {
             if (item == undefined) {
+                let indic2e = new Indice(linha, coluna)
+                indic2e.alg = Algoritimos.NENHUM
                 prepBoard[linha][coluna] = {
                     tipo: tipos.CAMINHO,
-                    visitadoAlgo1: false,
-                    visitadoAlgo2: false,
-                    indice: new Indice(linha, coluna),
+                    indice: indic2e,
                     getTipo() {
                         return this.tipo
                     }
                 }
             } else {
-                item.visitadoAlgo1 = false
-                item.visitadoAlgo2 = false
+                item.indice.alg = Algoritimos.NENHUM
                 prepBoard[linha][coluna] = item
             }
         })

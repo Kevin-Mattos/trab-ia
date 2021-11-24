@@ -45,19 +45,6 @@ function BasePreparedBoard(board) {
     this.getItem = (indice) => {
         return this.board[indice.coordenadaX][indice.coordenadaY]
     }
-
-    this.imprime = () => {
-        this.board.forEach((linha, indiceLinha) => {
-            linha.forEach((coluna, indiceColuna) => {
-                let campo = this.board[indiceLinha][indiceColuna]
-                if(campo.visitado)
-                    process.stdout.write(`V |`)
-                else
-                    process.stdout.write(`${campo.getTipo()} |`)
-            })
-            console.log("")
-        })
-    }
 }
 
 module.exports = BasePreparedBoard
