@@ -10,7 +10,28 @@ const Algoritimos = {
     NENHUM: 'N'
 }
 
-function Bidirecional(board, indiceAtual, indiceParaIr) {
+function Bidirecional(board, indiceParaIr) {
+
+    let robos = board.obterTodosRobos()
+    let caminhos = []
+
+    robos.forEach((indiceDoRobo) => {
+        let result = BidirecionalIndividual(board, indiceDoRobo, indiceParaIr)
+        caminhos.push(result)
+    })
+
+    let smallestIndex = 0
+    let smallestValue = caminhos[0].length
+    caminhos.filter((value) => value.length != 0).forEach((value, index) => {
+        if (value.length < smallestValue) {
+            smallestIndex = index
+            smallestValue = value.length
+        }
+    })
+    return caminhos[smallestIndex]
+}
+
+function BidirecionalIndividual(board, indiceAtual, indiceParaIr) {
     let preparedBoard = new BidirecionalPreparedBoard(board.board)
     let fila = []
     let pilha = []
@@ -58,7 +79,6 @@ function saoVizinhosComAlgoritmosDiferentes(vizinhoDestino, vizinhoInicio, alg) 
 function iteracao(lista, vizinhos, parent, tipo) {
     for (let i = 0; i < vizinhos.length; i++) {
         let vizinho = vizinhos[i]
-        // let item = preparedBoard.getItem(vizinho)
         if (!vizinho.visitado) {
             vizinho.visitado = true
             vizinho.alg = tipo
@@ -71,8 +91,6 @@ function iteracao(lista, vizinhos, parent, tipo) {
 function juntarCaminhos(vizinho1, vizinho2) {
     let resultado = getParents(vizinho1).reverse()
     let resultado2 = getParents(vizinho2)
-    console.log()
-    console.log(resultado, resultado2)
     return resultado.concat(resultado2) 
 }
 
@@ -93,6 +111,7 @@ function BidirecionalPreparedBoard(board) {
             if (item == undefined) {
                 let indic2e = new Indice(linha, coluna)
                 indic2e.alg = Algoritimos.NENHUM
+                indic2e.visitado = false
                 prepBoard[linha][coluna] = {
                     tipo: tipos.CAMINHO,
                     indice: indic2e,
@@ -102,6 +121,7 @@ function BidirecionalPreparedBoard(board) {
                 }
             } else {
                 item.indice.alg = Algoritimos.NENHUM
+                item.indice.visitado = false
                 prepBoard[linha][coluna] = item
             }
         })

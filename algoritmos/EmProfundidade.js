@@ -22,7 +22,7 @@ function BuscaProfundidade(board, indiceParaIr) {
                     ret.push(curr.indice)
                     curr = curr.parent
                 }
-                return ret.reverse()
+                return ret
             }
             if (!item.visitado) {
                 item.visitado = true

@@ -48,8 +48,18 @@ class CentroDistribuicao {
                 let campo = this.board[indiceLinha][indiceColuna]
                 if(campo == undefined)
                     process.stdout.write(`${tipos.CAMINHO} |`)
-                else
-                    process.stdout.write(`${campo.getTipo()} |`)
+                else{
+                    if(typeof campo.getTipo() == 'number' ) {
+                        if (campo.getTipo() > 9) {
+                            process.stdout.write(`${campo.getTipo()}|`)
+                        } else {
+                            process.stdout.write(`${campo.getTipo()} |`)
+                        }
+                    } else 
+                     process.stdout.write(`${campo.getTipo()} |`)
+                    
+                }
+                   
             })
             console.log("")
         })

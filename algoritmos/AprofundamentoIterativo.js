@@ -35,7 +35,7 @@ function Aprofundamentoiterativo(board, indiceParaIr) {
                     resultado.push(atual);
                     atual = atual.parent;
                 }
-                return resultado.reverse(); //inverte resultado e manda
+                return resultado
             }
 
             acoes = preparedBoard.obterLocaisPossiveisParaIr(atual); //checa pra onde pode ir
