@@ -12,8 +12,8 @@ function buscaAEstrela(board, indiceParaIr) {
         caminhos.push(result)
     })
 
-    let smallestIndex = caminhos[0].length
-    let smallestValue = smallestIndex
+    let smallestIndex = 0
+    let smallestValue = caminhos[0].length
     caminhos.filter((value) => value.length != 0).forEach((value, index) => {
         if (value.length < smallestValue) {
             smallestIndex = index
@@ -48,7 +48,7 @@ function BuscaAEstrelaIndividual(board, indiceAtual, indiceParaIr) {
                 ret.push(curr.indice)
                 curr = curr.parent
             }
-            return ret.reverse()
+            return ret
         }
 
         //remover atual dos observados
